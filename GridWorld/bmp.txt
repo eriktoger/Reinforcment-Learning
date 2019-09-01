@@ -1,0 +1,3 @@
+convert dragon.gif -resize 32x32 dragon32.bmp
+
+
