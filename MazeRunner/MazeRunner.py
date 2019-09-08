@@ -299,14 +299,14 @@ class MazeRunner:
         x = self.MAX_X +8
         y = 8
         
-        self.printRightAreaTextFileClearScreenContinue("text/DPp1.txt",x,y)
-        self.printRightAreaTextFileClearScreenContinue("text/DPp2.txt",x,y)
+        self.showToUserRight("text/DPp1.txt",x,y)
+        self.showToUserRight("text/DPp2.txt",x,y)
         
         self.printDPPolicyGrid(x,y)
 
-        self.printRightAreaTextFileClearScreenContinue("text/DPp3.txt",x,y)
+        self.showToUserRight("text/DPp3.txt",x,y)
         self.printDPReturnGrid(x,y)
-        self.printRightAreaTextFileClearScreenContinue("text/DPfinish.txt",x,y)
+        self.showToUserRight("text/DPfinish.txt",x,y)
         
 
     def printDPPolicyGrid(self,x,y):
@@ -364,7 +364,7 @@ class MazeRunner:
         
         self.policyGridFile.close()
     
-    def printRightAreaTextFileClearScreenContinue(self,file,x,y):
+    def showToUserRight(self,file,x,y):
         self.printRightAreaTextFile(file, x,y)
         self.PressCtoContinue()
         self.clearRightArea()
