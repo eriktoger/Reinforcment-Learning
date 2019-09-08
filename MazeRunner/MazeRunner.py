@@ -368,6 +368,7 @@ class MazeRunner:
         self.printRightAreaTextFile(file, x,y)
         self.PressCtoContinue()
         self.clearRightArea()
+        #
         
     def printRightAreaTextFile(self, file, x,y):
         textFile = open(file,"r")

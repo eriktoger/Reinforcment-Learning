@@ -2,6 +2,8 @@
 *
 # dont ignore
 !MazeRunner/
+!GridWorld/
+!.gitignore
 
 
 
