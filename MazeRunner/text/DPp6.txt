@@ -1,0 +1,15 @@
+Each round the values and
+policy is upgraded
+
+The policy is easiest:
+We want to go the adjecent 
+square with the highest 
+value. So each square gets
+an arrow that points 
+the highest adjecent 
+square.
+
+After that is done,
+is the value updated
+
+
