@@ -94,6 +94,12 @@ class MazeRunner:
         self.hellImage = self.pygame.image.load("pictures/hell32.bmp")
         self.appleImage = self.pygame.image.load("pictures/apple32.bmp") 
         self.bombImage = self.pygame.image.load("pictures/bomb32.bmp")
+        
+        self.upImage = self.pygame.image.load("pictures/up32.bmp")
+        self.downImage = self.pygame.image.load("pictures/down32.bmp")
+        self.leftImage = self.pygame.image.load("pictures/left32.bmp") 
+        self.rightImage = self.pygame.image.load("pictures/right32.bmp")
+        
     
     def drawBorder(self):
         
@@ -258,19 +264,14 @@ class MazeRunner:
                 
             if key[self.pygame.K_RETURN]:
                 if idx == self.mazeDict['small']:
-                    if menuType == 'Play':
-                        self.createMaze('small')
-                    if menuType == 'DP':
-                        self.createMaze('small')
+                    self.createMaze('small')
+                    self.createMaze('small')
                     return True
-                
                 if idx == self.mazeDict['medium']:
-                    if menuType == 'Play':
-                        self.createMaze('medium')
+                    self.createMaze('medium')
                     return True
                 if idx == self.mazeDict['large']:
-                    if menuType == 'Play':
-                        self.createMaze('large')
+                    self.createMaze('large')
                     return True
                 if idx == self.mazeDict['Exit']:
                     return False
@@ -281,7 +282,7 @@ class MazeRunner:
             
     def createMaze(self,size):
         #should be MazeSmall()
-       
+        self.size = size
         self.theMazeGame = MazeGame(size)
         cols = self.theMazeGame.size[1]
         rows = self.theMazeGame.size[0]
@@ -297,37 +298,102 @@ class MazeRunner:
     def dynamicProgramming(self):
         x = self.MAX_X +8
         y = 8
-        self.printTextRightArea(16,"Dynamic programming" ,x,y)
-        y += 32
-        self.printTextRightArea(16,"dont play the game" ,x,y)
-        y += 32
-        self.printTextRightArea(16,"Instead it directly" ,x,y)
-        y += 32
-        self.printTextRightArea(16,"access the game states" ,x,y)
-        y += 32
-        self.printTextRightArea(16,"These states are" ,x,y)
-        y += 32
-        self.printTextRightArea(16,"Policy: the moves" ,x,y)
-        y += 32
-        self.printTextRightArea(16,"Return: each square" ,x,y)
-        y += 32
-        self.printTextRightArea(16,"is worth diffrent points" ,x,y)
-        y += 32
-        self.printTextRightArea(16,"Value: These return " ,x,y)
-        y += 32
-        self.printTextRightArea(16,"points makes the value " ,x,y)
-        y += 32
         
-        self.printTextRightArea(16,"Press C to continue" ,x,y)
+        self.printRightAreaTextFileClearScreenContinue("text/DPp1.txt",x,y)
+        self.printRightAreaTextFileClearScreenContinue("text/DPp2.txt",x,y)
+        
+        self.printDPPolicyGrid(x,y)
+
+        self.printRightAreaTextFileClearScreenContinue("text/DPp3.txt",x,y)
+        self.printDPReturnGrid(x,y)
+        self.printRightAreaTextFileClearScreenContinue("text/DPfinish.txt",x,y)
+        
+
+    def printDPPolicyGrid(self,x,y):
+        prefix = "DP"
+        self.policyGridFile = open("saveFiles/" + prefix + self.size + "policyGrid.txt","r")
+        lines = 0
+        
+        #count lines
+        for i, line in enumerate(self.policyGridFile):
+            lines = i
+        lines +=1
+
+        # +1 is because 1 row is index in file
+        rowsFile = self.theMazeGame.size[0] + 1
+        start = 0
+        end = rowsFile
+        totalRounds = lines / rowsFile
+        currentRound = 1
+        
+        running = True
+        while(running):
+            self.clearRightArea()
+            y = 8
+            self.printTextRightArea(16,"Round " +str(currentRound)+ "/" + str( int( totalRounds) ) ,x,y)    
+            if currentRound == totalRounds:
+                running = False
+                y += 32
+                self.printTextRightArea(16,"And Now the Policy" ,x,y)
+                y += 32
+                self.printTextRightArea(16,"has converged" ,x,y)
+           
+            self.policyGridFile.seek(0)
+            for i, line in enumerate(self.policyGridFile):
+                if i > start and i < end:
+                    policyList = line.split()
+                    i = (i-1) % rowsFile
+                    for j,p in enumerate(policyList):
+                        self.printArrow(i,j,p)
+            
+            self.pygame.display.flip() 
+            
+            
+            start += 5*(rowsFile)
+            end += 5*(rowsFile)
+            currentRound += 5
+            
+            while end > lines:
+                start -= 1*(rowsFile)
+                end -= 1*(rowsFile)
+                currentRound -= 1
+                    
+            self.pygame.display.flip()       
+            self.PressCtoContinue()
+            self.clearRightArea()
+        
+        self.policyGridFile.close()
+    
+    def printRightAreaTextFileClearScreenContinue(self,file,x,y):
+        self.printRightAreaTextFile(file, x,y)
         self.PressCtoContinue()
-        
         self.clearRightArea()
-        y = 8
-        self.printTextRightArea(16,"Here we see the first Policy" ,x,y)
-        #self.ShowPolicy(1)
         
-        time.sleep(5)
-        pass
+    def printRightAreaTextFile(self, file, x,y):
+        textFile = open(file,"r")
+        for line in textFile:
+            #last char is newline
+            self.printTextRightArea(16, line[:-1],x,y)
+            y+=32
+        textFile.close()
+        
+    def printArrow(self,i,j,policy):
+        
+        x = self.START_X + j*32
+        y = self.START_Y + i*32
+        if policy == "0.0":
+            self.pygame.draw.rect(self.screen, self.BLACK, (x,y,32,32 ))
+            self.screen.blit(self.upImage, (x,y) )
+        if policy == "1.0":
+            self.pygame.draw.rect(self.screen, self.BLACK, (x,y,32,32 ))
+            self.screen.blit(self.rightImage, (x,y) )
+        if policy == "2.0":
+            self.pygame.draw.rect(self.screen, self.BLACK, (x,y,32,32 ))
+            self.screen.blit(self.downImage, (x,y) )
+        if policy == "3.0":
+            self.pygame.draw.rect(self.screen, self.BLACK, (x,y,32,32 ))
+            self.screen.blit(self.leftImage, (x,y) )
+        self.pygame.display.flip() 
     def PressCtoContinue(self):
         while True:
             self.pygame.time.delay(100)
@@ -646,8 +712,6 @@ class MazeRunner:
         textposScore[3] = 0 
         
         self.screen.blit(textScore, textposScore)
-        
-        
         
         
         self.pygame.display.flip()

@@ -1,0 +1,11 @@
+Dynamic programming
+dont play the game
+Instead it directly
+access the game states
+These states are
+Policy: the moves
+Return: each square
+is worth diffrent points
+Value: These return
+points makes the value
+Press C to continue

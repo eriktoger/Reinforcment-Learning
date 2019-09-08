@@ -142,9 +142,9 @@ class DP_Solution:
     
     def openFiles(self):
         prefix = "DP"
-        self.policyGridFile = open(prefix + self.size + "policyGrid.txt","w+")
-        self.returnGridFile = open(prefix + self.size + "returnGrid.txt","w+")
-        self.valueGridFile = open(prefix + self.size + "valueGrid.txt", "w+")
+        self.policyGridFile = open("saveFiles/" + prefix + self.size + "policyGrid.txt","w+")
+        self.returnGridFile = open("saveFiles/" +prefix + self.size + "returnGrid.txt","w+")
+        self.valueGridFile = open("saveFiles/" +prefix + self.size + "valueGrid.txt", "w+")
     def saveToFile(self,i):
         self.policyGridFile.write("Round" + str(i) + "\n")
         self.returnGridFile.write("Round" + str(i) + "\n")
@@ -163,12 +163,12 @@ class DP_Solution:
         self.valueGridFile.close()
     
 if __name__=="__main__":
-    DP_Game = DP_Solution('small',GAMMA, LOWER_LIMIT)
+    DP_Game = DP_Solution('large',GAMMA, LOWER_LIMIT)
     save = False
     
     if save:
         DP_Game.openFiles()
     DP_Game.updateUntilConvergence(save)
     if save:
-        DP_Game.openFiles()
+        DP_Game.closeFiles()
     DP_Game.printGrids()
