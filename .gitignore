@@ -1,4 +1,6 @@
 # Ignore:
+*
+# dont ignore
 !MazeRunner/
 
 
