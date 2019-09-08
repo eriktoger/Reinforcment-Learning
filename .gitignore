@@ -1,12 +1,5 @@
 # Ignore:
-GridWorld/
-machine_learning_examples-master/
-rl/
-rl2/
-rl3/
-RL-books/
-py-files/
-gitInstructions.txt
-machine_learning_examples-master.zip
+!MazeRunner/
+
 
 
