@@ -1,0 +1,15 @@
+Now each square looks
+around it self for the
+highest value.
+SV = a squares value
+g = gamma,
+Gamma is a diminising 
+return of the values.
+So values far away are 
+valued less.
+R = the return of best
+adjecent square
+BASV = the value of best
+adjecent square
+
+SV := g*(R+BASV)
