@@ -163,7 +163,7 @@ class DP_Solution:
         self.valueGridFile.close()
     
 if __name__=="__main__":
-    DP_Game = DP_Solution('large',GAMMA, LOWER_LIMIT)
+    DP_Game = DP_Solution('small',GAMMA, LOWER_LIMIT)
     save = False
     
     if save:

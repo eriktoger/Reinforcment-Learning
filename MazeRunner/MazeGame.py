@@ -26,7 +26,7 @@ class MazeGame:
         
     def standardInit(self):
         self.policyGrid = self.createPolicyGrid()
-        self.returnGridValue = -0.5
+        self.returnGridValue = -1
         self.returnGrid = self.createReturnGrid(self.returnGridValue)
         self.valueGrid = self.createValueGrid()
         

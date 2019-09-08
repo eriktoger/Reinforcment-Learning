@@ -41,7 +41,7 @@ class MazeRunner:
         
         self.MAX_Y = 20*32
         self.MAX_X = 16*32
-        self.INFO_X = 6*32
+        self.INFO_X = 16*32
         self.INFO_Y = self.MAX_Y
        
         
@@ -302,20 +302,53 @@ class MazeRunner:
         self.showToUserRight("text/DPp1.txt",x,y)
         self.showToUserRight("text/DPp2.txt",x,y)
         
-        self.printDPPolicyGrid(x,y)
+        #self.printDPPolicyGrid(x,y)
+        self.printGrid(x,y,self.printArrow,"saveFiles/DP"  + self.size + "policyGrid.txt")
 
         self.showToUserRight("text/DPp3.txt",x,y)
-        self.printDPReturnGrid(x,y)
+        self.printReturnGrid(x,y)
+        self.showToUserRight("text/DPp4.txt",x,y)
+        self.showToUserRight("text/DPp5.txt",x,y)
+        self.printGrid(x,y,self.printNumber,"saveFiles/DP"  + self.size + "valueGrid.txt")
+        self.showToUserRight("text/DPp6.txt",x,y)
+        self.showToUserRight("text/DPp7.txt",x,y)
         self.showToUserRight("text/DPfinish.txt",x,y)
         
-
-    def printDPPolicyGrid(self,x,y):
+    def printReturnGrid(self,x,y):
         prefix = "DP"
-        self.policyGridFile = open("saveFiles/" + prefix + self.size + "policyGrid.txt","r")
+        self.policyGridFile = open("saveFiles/" + prefix + self.size + "returnGrid.txt","r")
+        
+        
+        self.clearRightArea()
+        y = 8
+        self.printTextRightArea(16,"The games goal is",x,y)
+        y += 32
+        self.printTextRightArea(16,"to maximize its",x,y)
+        y += 32
+        self.printTextRightArea(16,"return",x,y)
+        
+        start = 0
+        end = self.theMazeGame.size[0] + 1
+        
+        for i, line in enumerate(self.policyGridFile):
+            if i > start and i < end:
+                policyList = line.split()
+                for j,p in enumerate(policyList):
+                    self.printNumber(i-1,j,p)
+
+        self.pygame.display.flip()       
+        self.PressCtoContinue()
+        self.clearRightArea()
+        
+        self.policyGridFile.close()
+        
+    def printGrid(self,x,y,function,file):
+
+        self.gridFile = open(file,"r")
         lines = 0
         
         #count lines
-        for i, line in enumerate(self.policyGridFile):
+        for i, line in enumerate(self.gridFile):
             lines = i
         lines +=1
 
@@ -338,16 +371,15 @@ class MazeRunner:
                 y += 32
                 self.printTextRightArea(16,"has converged" ,x,y)
            
-            self.policyGridFile.seek(0)
-            for i, line in enumerate(self.policyGridFile):
+            self.gridFile.seek(0)
+            for i, line in enumerate(self.gridFile):
                 if i > start and i < end:
-                    policyList = line.split()
+                    rowList = line.split()
                     i = (i-1) % rowsFile
-                    for j,p in enumerate(policyList):
-                        self.printArrow(i,j,p)
+                    for j,p in enumerate(rowList):
+                        function(i,j,p)
             
             self.pygame.display.flip() 
-            
             
             start += 5*(rowsFile)
             end += 5*(rowsFile)
@@ -362,7 +394,7 @@ class MazeRunner:
             self.PressCtoContinue()
             self.clearRightArea()
         
-        self.policyGridFile.close()
+        self.gridFile.close()
     
     def showToUserRight(self,file,x,y):
         self.printRightAreaTextFile(file, x,y)
@@ -394,7 +426,37 @@ class MazeRunner:
         if policy == "3.0":
             self.pygame.draw.rect(self.screen, self.BLACK, (x,y,32,32 ))
             self.screen.blit(self.leftImage, (x,y) )
-        self.pygame.display.flip() 
+        self.pygame.display.flip()
+        
+    def printNumber(self,i,j,number):
+        fontSize = 12
+            
+        x = self.START_X + j*32
+        y = self.START_Y + i*32 
+        if number =='nan':
+            number = ''
+        else:
+            self.pygame.draw.rect(self.screen, self.BLACK, (x,y,32,32 ))
+            number = str( int( float(number) ) )
+        
+        text = number
+        fontMenu = self.pygame.freetype.Font('freesansbold.ttf', fontSize)
+        white = (255, 255, 255) 
+        black = (0,0,0)
+        (textItem,textPos) = fontMenu.render(text, white, black)
+        
+        if number == '':
+            number =0
+        if abs( int(number) ) < 100 :
+            x += 2
+        if abs( int(number) ) < 10 :
+            x += 2
+            
+        textPos[0] = x
+        textPos[1] = y + 16
+        
+        self.screen.blit(textItem, textPos)
+        self.pygame.display.flip()
     def PressCtoContinue(self):
         while True:
             self.pygame.time.delay(100)
