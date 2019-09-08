@@ -2,6 +2,9 @@
 *
 # dont ignore
 !MazeRunner/
+!MazeRunner/saveFiles
+!MazeRunner/pictures
+!MazeRunner/text
 !GridWorld/
 !.gitignore
 
