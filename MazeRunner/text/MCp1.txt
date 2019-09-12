@@ -1,0 +1,18 @@
+In Monte Carlo we do play the game.
+And after each succesful run,
+the game updates.
+We are going to see 9 runs
+and watch how the policy updates
+For small board it is run
+1, 13 ,25 ,37, 50,62,75,87 and 100
+because I did 100 runs to train
+the game.
+
+For medium (were I did 1000 runs)
+it is run 1, 130,250, 370, 500, 620
+750, 870 and 1000
+
+And for large (10000 runs)
+it is run 1, 1300,2500
+3700, 5000,  6200, 7500,
+8700 and 1000

@@ -1,0 +1,7 @@
+The game has 6.25% chance of doing 
+a random action
+
+And it has 93.75 % of following
+policy
+
+Press C to see next

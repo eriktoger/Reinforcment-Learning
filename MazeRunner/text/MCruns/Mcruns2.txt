@@ -1,0 +1,11 @@
+The chance of doing a random move is:
+1 - ( current Try / 2*(all tries) + 0.5)
+
+So if we are on try 300 of 1000:
+
+1 - ( 300 / (2*1000) +0.5 ) =0.35
+Here we  have 35 % chance of doing a
+radnom move and 65 % of following
+our policy. 
+
+Press C to see next

@@ -1,0 +1,14 @@
+The game has 25% chance of doing 
+a random action
+
+And it has 75 % of following
+policy
+
+
+Now we see that the actions are 
+getting lessrandom.
+And we are going for target
+with good accuracy.
+
+
+Press C to see next

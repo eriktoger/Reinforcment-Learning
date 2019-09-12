@@ -1,0 +1,12 @@
+In this Monte Carlo we
+are using random starts.
+So we can start anywere on
+the grid.
+This is neccesary for the
+medium and large grid.
+And even with this small
+cheat we dont fully finnish
+the large maze.
+
+Lets see the runs we talked about 
+in the last slide.

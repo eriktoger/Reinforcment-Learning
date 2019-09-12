@@ -1,0 +1,9 @@
+Since the MonteCarlo starts with a
+50% chance of doing a random action
+the movements are a bit random.
+
+This is because it needs to 
+explore before it can establish
+a working policy.
+
+Press C to see next
