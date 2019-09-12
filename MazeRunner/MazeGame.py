@@ -80,7 +80,7 @@ class MazeGame:
     def createLargeMaze(self):
         self.size = (18,14)
         self.standardInit()
-        self.currentSquare = (17,7)
+        self.currentSquare = (17,0)
         
         #diagonal
         self.createObstacle((17,8))
@@ -133,8 +133,9 @@ class MazeGame:
         self.createRandomPolicy()
     
     def createLargeMazeReturns(self):
-        self.createGoal( (0,0), -100 )
+        self.createGoal( (17,13), -100 )
         self.createGoal( (0,13), 100 )
+        self.createGoal( (17,7), -100 )
         
     def resetReturnGrid(self,size):
         #self.returnGrid = self.createReturnGrid(self.returnGridValue)
@@ -262,7 +263,7 @@ class MazeGame:
             if not self.policyGrid[newSquare[0]][newSquare[1]] == -1:
                self.currentSquare = newSquare
                self.returnCount += self.returnGrid[newSquare[0]][newSquare[1]]
-               self.returnGrid[newSquare[0]][newSquare[1]] = self.returnGridValue
+               #self.returnGrid[newSquare[0]][newSquare[1]] = self.returnGridValue
                     
     
     def playMCGame(self,startSquare, randomMove):

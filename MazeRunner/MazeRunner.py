@@ -265,7 +265,6 @@ class MazeRunner:
             if key[self.pygame.K_RETURN]:
                 if idx == self.mazeDict['small']:
                     self.createMaze('small')
-                    self.createMaze('small')
                     return True
                 if idx == self.mazeDict['medium']:
                     self.createMaze('medium')
@@ -303,20 +302,90 @@ class MazeRunner:
         self.showToUserRight("text/DPp2.txt",x,y)
         
         #self.printDPPolicyGrid(x,y)
-        self.printGrid(x,y,self.printArrow,"saveFiles/DP"  + self.size + "policyGrid.txt")
+        self.printGrid(x,y,self.printArrow,"saveFiles/DP/DP"  + self.size + "policyGrid.txt")
 
         self.showToUserRight("text/DPp3.txt",x,y)
-        self.printReturnGrid(x,y)
+        self.printReturnGrid(x,y,"DP")
         self.showToUserRight("text/DPp4.txt",x,y)
         self.showToUserRight("text/DPp5.txt",x,y)
-        self.printGrid(x,y,self.printNumber,"saveFiles/DP"  + self.size + "valueGrid.txt")
+        self.printGrid(x,y,self.printNumber,"saveFiles/DP/DP"  + self.size + "valueGrid.txt")
         self.showToUserRight("text/DPp6.txt",x,y)
         self.showToUserRight("text/DPp7.txt",x,y)
         self.showToUserRight("text/DPfinish.txt",x,y)
+    
+    def monteCarlo(self):
+        x = self.MAX_X +8
+        y = 8
         
-    def printReturnGrid(self,x,y):
-        prefix = "DP"
-        self.policyGridFile = open("saveFiles/" + prefix + self.size + "returnGrid.txt","r")
+        self.showToUserRight("text/MCp1.txt",x,y)
+        self.showToUserRight("text/MCp2.txt",x,y)
+        self.monteCarloMoves = self.getMCMoves()
+        #print(self.monteCarloMoves)
+        for i, run in enumerate(self.monteCarloMoves):
+            file = "text/MCruns/Mcruns"+ str(i+1) + ".txt"
+            self.clearRightArea()
+            self.printRightAreaTextFile(file, x,y)
+            self.placeTokens()
+            self.playOutMoves(run)
+            self.PressCtoContinue()
+        self.placeTokens()
+        self.printGrid(x,y,self.printArrow,"saveFiles/MC/MC" + self.size + "policyGrid.txt")
+    def getMCMoves(self):
+        prefix ="MC"
+        
+        self. MCstepsFile = open("saveFiles/"+prefix +"/"+ prefix + self.size + "Steps.txt","r")
+        tempString= ""
+        allRuns = []
+        oneRun = []
+        first = ""
+        second = ""
+        addToFirst = False
+        addToSecond = False
+        while(True):
+            char = self.MCstepsFile.read(1)
+            if char == '':
+                break
+            if char == '|':
+                allRuns.append(oneRun)
+                oneRun = []
+            tempString += char
+            if char == '(':
+                addToFirst = True
+            if char == ',':
+                addToFirst = False
+                addToSecond = True
+            if char == ')':
+                addToSecond = False
+                oneRun.append((int(first),int(second)) )
+                first = ""
+                second = ""
+            if addToFirst and char.isdigit():
+                first += char
+            if addToSecond and char.isdigit():
+                second += char
+        return allRuns
+    def playOutMoves(self,run):
+        # there is a risk that the currentsquare breaks here
+        #can i play the game after monteCarlo?
+        #x2 = newSquare[1] * 32 + self.START_X
+        #y2 = newSquare[0] * 32 + self.START_Y
+        
+        lastX = self.smileyPos[0]
+        lastY = self.smileyPos[1]
+        for square in run:
+            self.pygame.draw.rect(self.screen, self.BLACK, (lastX,lastY,32,32 ))
+            x = square[1] * 32 + self.START_X
+            y = square[0] * 32 + self.START_Y
+            self.screen.blit(self.unicornImage, (x ,y)) 
+            self.pygame.display.flip()
+            time.sleep(0.1)
+            lastX = x
+            lastY = y
+        self.pygame.draw.rect(self.screen, self.BLACK, (lastX,lastY,32,32 ))
+        #looks good but need to remove unicorn from goals
+        #and if it dosent finish we need to remove it.
+    def printReturnGrid(self,x,y,prefix):
+        self.policyGridFile = open("saveFiles/"+prefix +"/"+ prefix + self.size + "returnGrid.txt","r")
         
         
         self.clearRightArea()
@@ -358,7 +427,6 @@ class MazeRunner:
         end = rowsFile
         totalRounds = lines / rowsFile
         currentRound = 1
-        
         running = True
         while(running):
             self.clearRightArea()
@@ -367,7 +435,7 @@ class MazeRunner:
             if currentRound == totalRounds:
                 running = False
                 y += 32
-                self.printTextRightArea(16,"And Now the Policy" ,x,y)
+                self.printTextRightArea(16,"And now the grid" ,x,y)
                 y += 32
                 self.printTextRightArea(16,"has converged" ,x,y)
            
@@ -478,7 +546,7 @@ class MazeRunner:
         self.theMazeGame.returnCount = 0
         #self.theMazeGame.currentSquare = (0,0)
         self.printScore()
-    
+
     def setupGameDP(self):
         self.clearScreen()       
         self.drawBorder()
@@ -717,6 +785,12 @@ class MazeRunner:
                     if self.mazeMenu('DP'):
                         self.setupGameDP()
                         self.dynamicProgramming()
+                    return True
+                if idx == self.menuDict['MC']:
+                    #mazeMenu need no argument
+                    if self.mazeMenu('MC'):
+                        self.setupGameDP()
+                        self.monteCarlo()
                     return True
                 if idx == self.menuDict['Exit']:
                     return False

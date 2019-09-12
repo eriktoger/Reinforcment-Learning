@@ -1,22 +1,14 @@
-Each square either gives 
-a negative return
-or positive
-Here we se
-that most
-squares are
- -1 and
-one are large 
-positive
-and one is 
-large negative
-The -1 is to
-penelize each step
-so it will learn
-the shortest route
-The large positive 
-is the "good" goal
-and the large 
-negative is the
-"bad" goal.
+Each square either gives a negative return
+or positive Here we se
+that most squares are
+ -1 and one are large 
+positive and one is 
+large negative.
+
+The -1 is to penelize each step
+so it will learn the shortest route.
+
+The large positive is the "good" goal
+and the large negative is the "bad" goal.
 
 

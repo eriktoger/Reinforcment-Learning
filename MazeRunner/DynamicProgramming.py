@@ -142,9 +142,9 @@ class DP_Solution:
     
     def openFiles(self):
         prefix = "DP"
-        self.policyGridFile = open("saveFiles/" + prefix + self.size + "policyGrid.txt","w+")
-        self.returnGridFile = open("saveFiles/" +prefix + self.size + "returnGrid.txt","w+")
-        self.valueGridFile = open("saveFiles/" +prefix + self.size + "valueGrid.txt", "w+")
+        self.policyGridFile = open("saveFiles/" + prefix +"/" + prefix + self.size + "policyGrid.txt","w+")
+        self.returnGridFile = open("saveFiles/" + prefix +"/" + prefix + self.size + "returnGrid.txt","w+")
+        self.valueGridFile = open("saveFiles/" + prefix +"/" + prefix + self.size + "valueGrid.txt", "w+")
     def saveToFile(self,i):
         self.policyGridFile.write("Round" + str(i) + "\n")
         self.returnGridFile.write("Round" + str(i) + "\n")

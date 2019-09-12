@@ -1,11 +1,9 @@
-And we did see
-That we found
-the "good" goal
-Next we will learn
-about value
-Watch on the next
-slides how
-the value moves
-from the "good"
-goal back thorugh the
-maze.
+And we did see that we found
+the "good" goal.
+ 
+Next we will learn about value
+Watch on the next slides how
+the value movesfrom the "good"
+goal back through themaze.
+
+Press C to continue
