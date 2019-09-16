@@ -66,7 +66,7 @@ class DP_Solution:
                             else:
                                 p = 0 # shouldnt happen   
                         if move == 0:
-                            theReturn = self.game.returnGrid[i-1][j]
+                            theReturn = self.game.returnGrid[i][j]
                             self.game.valueGrid[i][j] += p*self.gamma *(theReturn +self.game.valueGrid[i-1][j])
                         if move == 1:
                             theReturn = self.game.returnGrid[i][j+1]
@@ -145,6 +145,7 @@ class DP_Solution:
         self.policyGridFile = open("saveFiles/" + prefix +"/" + prefix + self.size + "policyGrid.txt","w+")
         self.returnGridFile = open("saveFiles/" + prefix +"/" + prefix + self.size + "returnGrid.txt","w+")
         self.valueGridFile = open("saveFiles/" + prefix +"/" + prefix + self.size + "valueGrid.txt", "w+")
+    
     def saveToFile(self,i):
         self.policyGridFile.write("Round" + str(i) + "\n")
         self.returnGridFile.write("Round" + str(i) + "\n")
@@ -163,8 +164,8 @@ class DP_Solution:
         self.valueGridFile.close()
     
 if __name__=="__main__":
-    DP_Game = DP_Solution('small',GAMMA, LOWER_LIMIT)
-    save = False
+    DP_Game = DP_Solution('medium',GAMMA, LOWER_LIMIT)
+    save = True
     
     if save:
         DP_Game.openFiles()
