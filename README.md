@@ -1,4 +1,4 @@
-Grid world is not much to look at
+Grid world is not much to look at and
 Grid world soon evolved inte Maze runner.
 A video demonstration of Maze runner can be found at:
 
